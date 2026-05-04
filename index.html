@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple E-commerce</title>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 0;
+      background: #f4f4f4;
+      text-align: center;
+    }
+
+    h1 {
+      background: #333;
+      color: white;
+      padding: 15px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .product {
+      background: white;
+      border: 1px solid #ddd;
+      margin: 15px;
+      padding: 15px;
+      width: 200px;
+      border-radius: 8px;
+    }
+
+    button {
+      background: #333;
+      color: white;
+      padding: 8px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #cart {
+      margin: 20px;
+      padding: 10px;
+      background: white;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<h1> My E-commerce Store</h1>
+
+<div class="container" id="products"></div>
+
+<h2> Cart</h2>
+<div id="cart"></div>
+
+<script>
+const products = [
+  { id: 1, name: "Laptop", price: 50000 },
+  { id: 2, name: "Phone", price: 20000 },
+  { id: 3, name: "Headphones", price: 2000 }
+];
+
+// Load products
+function loadProducts() {
+  let html = "";
+  products.forEach(p => {
+    html += `
+      <div class="product">
+        <h3>${p.name}</h3>
+        <p>₹${p.price}</p>
+        <button onclick="addToCart(${p.id})">Add to Cart</button>
+      </div>
+    `;
+  });
+  document.getElementById("products").innerHTML = html;
+}
+
+// Add to cart
+function addToCart(id) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart.push(products.find(p => p.id === id));
+  localStorage.setItem("cart", JSON.stringify(cart));
+  displayCart();
+}
+
+// Display cart
+function displayCart() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let html = "";
+
+  cart.forEach(item => {
+    html += `<p>${item.name} - ₹${item.price}</p>`;
+  });
+
+  document.getElementById("cart").innerHTML = html;
+}
+
+loadProducts();
+displayCart();
+</script>
+
+</body>
+</html>
+
